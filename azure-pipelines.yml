@@ -21,7 +21,7 @@ steps:
   displayName: 'Run a multi-line script'
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '101-webapp-linux-managed-mysql'
+    SourceFolder: '101-vm-simple-linux'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
