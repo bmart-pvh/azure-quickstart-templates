@@ -6,7 +6,7 @@ variables:
   ARM_PASS: $(adminPass)
 
 trigger:
-- main
+- none
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -24,3 +24,17 @@ steps:
     SourceFolder: '101-webapp-linux-managed-mysql'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'SC-SubsRG-POC'
+    subscriptionId: 'c6f53805-6dda-4ba5-b469-d053c85e0915'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'DevOps-POC-RG'
+    location: 'East US'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(Build.ArtifactStagingDirectory)/azuredeploy.json'
+    csmParametersFile: '$(Build.ArtifactStagingDirectory)/azuredeploy.parameters.json'
+    overrideParameters: '-siteName $(siteName) -administratorLogin $(adminUser) -administratorLoginPassword $(ARM_PASS)'
+    deploymentMode: 'Incremental'
