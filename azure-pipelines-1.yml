@@ -19,7 +19,7 @@ steps:
   inputs:
     deploymentScope: 'Subscription'
     azureResourceManagerConnection: 'MG-PVHExchangeLab-POC'
-    subscriptionId: '719d456c-e606-4b40-b991-834cb79ac193'
+    subscriptionId: 'c6f53805-6dda-4ba5-b469-d053c85e0915'
     location: 'East US'
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.ArtifactStagingDirectory)/azuredeploy.json'
