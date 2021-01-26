@@ -1,0 +1,28 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'subscription-deployments/create-rg-lock-role-assignment'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Subscription'
+    azureResourceManagerConnection: 'MG-PVHExchangeLab-POC'
+    subscriptionId: 'c6f53805-6dda-4ba5-b469-d053c85e0915'
+    location: 'East US'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(Build.ArtifactStagingDirectory)/azuredeploy.json'
+    csmParametersFile: '$(Build.ArtifactStagingDirectory)/azuredeploy.parameters.json'
+    overrideParameters: '-rgName $(rgName) -rgLocation $(rgLocation) -principalId $(principalId)'
+    deploymentMode: 'Incremental'
