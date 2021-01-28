@@ -17,9 +17,11 @@ steps:
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
-    deploymentScope: 'Subscription'
-    azureResourceManagerConnection: 'MG-PVHExchangeLab-POC'
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'SC-SubsRG-POC'
     subscriptionId: 'c6f53805-6dda-4ba5-b469-d053c85e0915'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'CreateRGPOC'
     location: 'East US'
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.ArtifactStagingDirectory)/azuredeploy.json'
